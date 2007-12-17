@@ -12,7 +12,6 @@ Source3:	tac_plus.init
 Source4:	tac_plus.sysconfig
 Requires(pre):	rpm-helper
 Requires(post):	rpm-helper
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	tcp_wrappers-devel pam-devel
 
 %description
