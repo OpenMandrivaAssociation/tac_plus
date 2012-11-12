@@ -1,0 +1,6 @@
+sources:
+  "tacacs+-F4.0.4.15.tar.gz:"	2710039cd7855807b8c51bd909562c9f672c2432
+  "tac_plus.conf:"	ef409f7b1231afa7a6d9742f009fa5303be957a4
+  "tac_plus.init:"	fe885fbb5dac06a112574000a4478b1c2d76f104
+  "tac_plus.pamd:"	48e97b23aefa2ed4bacd4b8bd0b9bed424faead7
+  "tac_plus.sysconfig:"	919aa12cc2e5e4dff075ac272b3242c4859da594
