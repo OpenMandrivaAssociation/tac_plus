@@ -1,0 +1,4 @@
+# CONFIG=/etc/tac_plus.conf
+# DEBUG_LEVEL=255
+# LOGFILE=/var/log/tacacs.log
+# WHOLOG=/var/log/tacacs.who

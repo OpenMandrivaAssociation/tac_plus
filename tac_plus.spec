@@ -82,3 +82,41 @@ rm -Rf %{buildroot}
 %{_datadir}/%{name}
 
 
+
+
+%changelog
+* Tue Feb 22 2011 Buchan Milne <bgmilne@mandriva.org> 4.0.4.15-1mdv2011.0
++ Revision: 639391
+- update to new version 4.0.4.15
+
+* Tue Sep 08 2009 Thierry Vignaud <tv@mandriva.org> 4.0.4.14-5mdv2010.0
++ Revision: 434267
+- rebuild
+
+* Sat Aug 02 2008 Thierry Vignaud <tv@mandriva.org> 4.0.4.14-4mdv2009.0
++ Revision: 261367
+- rebuild
+
+* Tue Jul 29 2008 Thierry Vignaud <tv@mandriva.org> 4.0.4.14-3mdv2009.0
++ Revision: 254073
+- rebuild
+
+* Wed Jan 02 2008 Olivier Blin <oblin@mandriva.com> 4.0.4.14-1mdv2008.1
++ Revision: 140904
+- restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Thu Sep 06 2007 Buchan Milne <bgmilne@mandriva.org> 4.0.4.14-1mdv2008.0
++ Revision: 80515
+- New version 4.0.4.14
+
+
+* Sat Jan 27 2007 Buchan Milne <bgmilne@mandriva.org> 4.0.4.13-1mdv2007.0
++ Revision: 114281
+- Import tac_plus
+
+* Sat Jan 27 2007 Buchan Milne <bgmilne@mandriva.org> 4.0.4.13-1mdv
+- initial package
+

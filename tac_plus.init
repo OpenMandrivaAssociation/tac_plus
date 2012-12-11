@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+# description: Cisco's tacacs+ access, authorization, and accounting server.
+# chkconfig: 345 15 85
+#
+### BEGIN INIT INFO
+# Provides: tacacs tacacs+ tac_plus
+# Required-Start: $network
+# Required-Stop: $network
+# Default-Start: 3 4 5
+# Short-Description: TACACS+ server based on Cisco source release
+# Description: Starts and stops tac_plus TACACS+ server
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+CONFIG=/etc/tac_plus.conf
+
+[ -f $CONFIG ] || exit 1
+
+[ -r /etc/sysconfig/tac_plus ] && . /etc/sysconfig/tac_plus
+
+# See how we were called.
+case "$1" in
+  start)
+        # Start daemons.
+        echo -n "Starting tacacs+: "
+	daemon /usr/bin/tac_plus -C $CONFIG ${LOGFILE:+-l $LOGFILE}  ${WHOLOG:+-w $WHOLOG} ${DEBUG_LEVEL:+-d $DEBUG_LEVEL}
+	RETVAL=$?
+        echo
+        [ $RETVAL == 0 ] && touch /var/lock/subsys/tac_plus
+        ;;
+  stop)
+        # Stop daemons.
+        echo -n "Shutting down tacacs+: "
+        killproc tac_plus
+	RETVAL=$?
+        echo
+        [ $RETVAL == 0 ] && rm -f /var/lock/subsys/tac_plus
+        ;;
+  status)
+	status tac_plus	
+	exit $?
+	;;
+  restart)
+	$0 stop
+	$0 start
+	exit $?
+	;;
+  reload)
+	kill -USR1 `cat /var/run/tac_plus.pid`
+	;;
+  *)
+        echo "Usage: tacacs {start|stop|status|restart|reload}"
+        exit 1
+esac
+exit $RETVAL
