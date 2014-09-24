@@ -1,18 +1,18 @@
 Name:		tac_plus
 Version:	4.0.4.15
-Release:	%mkrel 1
+Release:	4
 License:	BSD
 Group:		System/Servers
-Summary:	TACACS+ server based on Cisco engineering release
+Summary:	TACACS++ server based on Cisco engineering release
 URL:		http://www.shrubbery.net/tac_plus/
 Source:		ftp://ftp.shrubbery.net/pub/%{name}/tacacs+-F%{version}.tar.gz
 Source1:	tac_plus.conf
 Source2:	tac_plus.pamd
-Source3:	tac_plus.init
+Source3:	tac_plus.service
 Source4:	tac_plus.sysconfig
+Source5:        tac_plus-wrapper.sh
 Requires(pre):	rpm-helper
 Requires(post):	rpm-helper
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	tcp_wrappers-devel pam-devel
 
 %description
@@ -48,75 +48,37 @@ further information.
 %make
 
 %install
-rm -Rf %{buildroot}
 %makeinstall_std
 
-mkdir -p %{buildroot}/{%{_initrddir},%{_sysconfdir}/{pam.d,sysconfig}}
-install -m 640 %{SOURCE1} %{buildroot}/%{_sysconfdir}/
-install -m 644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/pam.d/%{name}
-install -m 755 %{SOURCE3} %{buildroot}/%{_initrddir}/%{name}
-install -m 644 %{SOURCE4} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
+mkdir -p %{buildroot}/{%{_unitdir},%{_sysconfdir}/{pam.d,sysconfig}}
+install -m 640 %{SOURCE1} %{buildroot}%{_sysconfdir}/
+install -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/%{name}
+install -m0644 -D %{SOURCE3} %{buildroot}%{_unitdir}/%{name}.service
+install -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+install -m0755 -D %{SOURCE5} %{buildroot}%{_bindir}/tac_plus-wrapper.sh
 mv %{buildroot}/%{_datadir}/{tacacs+,tac_plus}
+
+sed "s:libexecdir:%{_libexecdir}:" -i %{buildroot}%{_unitdir}/%{name}.service
+sed "s:sysconfig:%{_sysconfdir}/sysconfig:" -i %{buildroot}%{_unitdir}/%{name}.service
 
 %clean
 rm -Rf %{buildroot}
 
 %post
-%_post_service %{name}
+%systemd_post %{name}
 
 %preun
-%_preun_service %{name}
+%systemd_preun %{name}
 
 %files
-%defattr(-,root,root)
 %{_bindir}/tac_*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %config(noreplace) %{_sysconfdir}/pam.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%{_initrddir}/%{name}
+%attr(0644,root,root) %{_unitdir}/%{name}.service
 %doc %{_mandir}/man5/tac_plus.conf.5.*
 %doc %{_mandir}/man8/tac_plus.8.*
 %doc %{_mandir}/man8/tac_pwd.8.*
 %doc %{_mandir}/man3/regexp.3.*
 %doc users_guide
 %{_datadir}/%{name}
-
-
-
-
-%changelog
-* Tue Feb 22 2011 Buchan Milne <bgmilne@mandriva.org> 4.0.4.15-1mdv2011.0
-+ Revision: 639391
-- update to new version 4.0.4.15
-
-* Tue Sep 08 2009 Thierry Vignaud <tv@mandriva.org> 4.0.4.14-5mdv2010.0
-+ Revision: 434267
-- rebuild
-
-* Sat Aug 02 2008 Thierry Vignaud <tv@mandriva.org> 4.0.4.14-4mdv2009.0
-+ Revision: 261367
-- rebuild
-
-* Tue Jul 29 2008 Thierry Vignaud <tv@mandriva.org> 4.0.4.14-3mdv2009.0
-+ Revision: 254073
-- rebuild
-
-* Wed Jan 02 2008 Olivier Blin <oblin@mandriva.com> 4.0.4.14-1mdv2008.1
-+ Revision: 140904
-- restore BuildRoot
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - kill re-definition of %%buildroot on Pixel's request
-
-* Thu Sep 06 2007 Buchan Milne <bgmilne@mandriva.org> 4.0.4.14-1mdv2008.0
-+ Revision: 80515
-- New version 4.0.4.14
-
-
-* Sat Jan 27 2007 Buchan Milne <bgmilne@mandriva.org> 4.0.4.13-1mdv2007.0
-+ Revision: 114281
-- Import tac_plus
-
-* Sat Jan 27 2007 Buchan Milne <bgmilne@mandriva.org> 4.0.4.13-1mdv
-- initial package
-

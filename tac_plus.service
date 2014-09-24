@@ -1,0 +1,13 @@
+[Unit]
+Description=Cisco's tacacs+ access, authorization, and accounting server.
+After=syslog.target network.target
+Wants=network.target
+
+[Service]
+Type=forking
+Environment=CONFIG=/etc/tac_plus.conf
+EnvironmentFile=-sysconfig/tac_plus
+ExecStart=/usr/bin/tac_plus-wrapper.sh
+
+[Install]
+WantedBy=multi-user.target
