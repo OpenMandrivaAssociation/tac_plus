@@ -4,7 +4,7 @@ Release:	5
 License:	BSD
 Group:		System/Servers
 Summary:	TACACS++ server based on Cisco engineering release
-URL:		http://www.shrubbery.net/tac_plus/
+URL:		https://www.shrubbery.net/tac_plus/
 Source:		ftp://ftp.shrubbery.net/pub/%{name}/tacacs+-F%{version}.tar.gz
 Source1:	tac_plus.conf
 Source2:	tac_plus.pamd
